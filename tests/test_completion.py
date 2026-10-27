@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import shutil
 import subprocess
 import sys
 
@@ -13,6 +14,8 @@ from sciproof.cli import _build_parser, main
 
 
 def _complete(tmp_path, line):
+    if shutil.which("bash") is None:
+        pytest.skip("argcomplete's filename completer needs Bash")
     output = tmp_path / "completions.txt"
     env = {
         **os.environ,
